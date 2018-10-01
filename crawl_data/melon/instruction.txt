@@ -1,0 +1,21 @@
+
+*** !!! IMPORTANT !!! *****************************
+
+This directory holds webpages manually saved from the Melon (Korean music ranking) website.
+
+MANUALLY SAVE the yearly top 100 ranking K-pop music information webpages here (see the URL below).
+
+These webpages cover 10 years' worth of top 100 ranking K-pop music, i.e., years 2008-2017.
+
+1. Save 'https://www.melon.com/chart/age/list.htm?chartGenre=KPOP&chartDate=2008' as melon/2008.htm --> sample given
+2. Save 'https://www.melon.com/chart/age/list.htm?chartGenre=KPOP&chartDate=2009' as melon/2009.htm
+3. Save 'https://www.melon.com/chart/age/list.htm?chartGenre=KPOP&chartDate=2010' as melon/2010.htm
+4. Save 'https://www.melon.com/chart/age/list.htm?chartGenre=KPOP&chartDate=2011' as melon/2011.htm
+5. Save 'https://www.melon.com/chart/age/list.htm?chartGenre=KPOP&chartDate=2012' as melon/2012.htm
+6. Save 'https://www.melon.com/chart/age/list.htm?chartGenre=KPOP&chartDate=2013' as melon/2013.htm
+7. Save 'https://www.melon.com/chart/age/list.htm?chartGenre=KPOP&chartDate=2014' as melon/2014.htm
+8. Save 'https://www.melon.com/chart/age/list.htm?chartGenre=KPOP&chartDate=2015' as melon/2015.htm
+9. Save 'https://www.melon.com/chart/age/list.htm?chartGenre=KPOP&chartDate=2016' as melon/2016.htm
+10. Save 'https://www.melon.com/chart/age/list.htm?chartGenre=KPOP&chartDate=2017' as melon/2017.htm
+
+***************************************************
