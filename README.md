@@ -1,4 +1,4 @@
-# PlaynView-DstinctWordFinder
+# PlaynView-DistinctWordFinder
 
 This code finds distinct lyrics words from K-pop/J-pop lyrics data using CP decomposition.
 
