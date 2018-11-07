@@ -53,29 +53,20 @@ def distinct_words(n_words, label_jpop, label_kpop):
     sort_label_ja = label_jpop
     sort_label_ko = label_kpop
 
-    # The intersection of all nine cases of mode-3 values are taken to obtain
-    # the final distinct K-pop & J-pop lyrics words.
+    # Load CPD word list.
 
-    for w in range(1, 10):
-        weight = "0.{}-0.{}-0.0".format(w, (10 - w))
+    ja, ko, neu = common_func.load_word_list()
 
-        # Load CPD word list.
+    # Reverse K-pop & J-pop CPD words list.
 
-        ja, ko, neu = common_func.load_word_list(weight)
+    rev_ko = list(reversed(ko))
+    rev_ja = list(reversed(ja))
 
-        # Reverse K-pop & J-pop CPD words list.
+    if sort_label_ko is 'bottom':
+        ko = rev_ko
 
-        rev_ko = list(reversed(ko))
-        rev_ja = list(reversed(ja))
-
-        if sort_label_ko is 'bottom':
-            ko = rev_ko
-
-        if sort_label_ja is 'bottom':
-            ja = rev_ja
-
-        final_ko.append(set(ko[:n_words]))
-        final_ja.append(set(ja[:n_words]))
+    if sort_label_ja is 'bottom':
+        ja = rev_ja
 
     print("--------------------------------------------------------")
     words = set.union(set(ko[:n_words]), set(ja[:n_words]))
@@ -86,12 +77,12 @@ def distinct_words(n_words, label_jpop, label_kpop):
     # intersection of the nine cases of mode-3 value results.
     # ----------------------------------------------------------------
 
-    print("\n\n==========================================")
+    print("\n==========================================")
     print("              FINAL WORDLIST              ")
     print("==========================================")
 
-    u_ko = set.intersection(*final_ko)
-    u_ja = set.intersection(*final_ja)
+    u_ko = set(ko[:n_words])
+    u_ja = set(ja[:n_words])
     u_common = set.intersection(u_ko, u_ja)
     u_words = set.union(u_ko, u_ja)
 
@@ -104,16 +95,15 @@ def distinct_words(n_words, label_jpop, label_kpop):
     print("# of COMMON words", len(u_common))
     print("# of UNION words (KO+JA):", len(u_words))
 
-    common_func.save_distinct_words(list(u_common), "common")
-
     u_ko_sans = u_ko - u_common
     u_ja_sans = u_ja - u_common
     u_words_sans = set.union(u_ko_sans, u_ja_sans)
 
-    print("# of KO words (w/o common):", len(u_ko_sans))
+    print("\n# of KO words (w/o common):", len(u_ko_sans))
     print("# of JA words (w/o common):", len(u_ja_sans))
     print("# of UNION words (KO+JA, w/o common):", len(u_words_sans))
 
+    common_func.save_distinct_words(list(u_common), "common")
     common_func.save_distinct_words(list(u_ko_sans), "k_pop")
     common_func.save_distinct_words(list(u_ja_sans), "j_pop")
 
@@ -127,39 +117,40 @@ distinct_words(300, 'bottom', 'top')
 
 
 '''
-/usr/bin/python3 /home/hcilab/Documents/OSS/playnview/find_distinct_words/find.py
+/usr/bin/python3 /home/hcilab/Documents/OSS/playnview_distinctwordfinder/find_distinct_words/find.py
 --------------------------------------------------------
-# of total words (union): 555
-
+# of total words (union): 545
 
 ==========================================
               FINAL WORDLIST              
 ==========================================
 # of KO words: 300
-# of JA words: 299
-# of COMMON words 44
-# of UNION words (KO+JA): 555
+# of JA words: 300
+# of COMMON words 55
+# of UNION words (KO+JA): 545
+
+# of KO words (w/o common): 245
+# of JA words (w/o common): 245
+# of UNION words (KO+JA, w/o common): 490
 
 ----------------------------------------
      DISTINCT COMMON WORDS     
 ----------------------------------------
-matched_common: 44
-split_common: 54
-# of KO words (w/o common): 256
-# of JA words (w/o common): 255
-# of UNION words (KO+JA, w/o common): 511
+matched_common: 55
+split_common: 65
 
 ----------------------------------------
      DISTINCT K_POP WORDS     
 ----------------------------------------
-matched_k_pop: 256
-split_k_pop: 285
+matched_k_pop: 245
+split_k_pop: 277
 
 ----------------------------------------
      DISTINCT J_POP WORDS     
 ----------------------------------------
-matched_j_pop: 255
-split_j_pop: 300
+matched_j_pop: 245
+split_j_pop: 289
 
 Process finished with exit code 0
+
 '''

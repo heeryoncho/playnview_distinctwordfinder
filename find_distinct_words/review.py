@@ -228,8 +228,7 @@ data_statistics()
 
 
 '''
-
-/usr/bin/python3 /home/hcilab/Documents/OSS/playnview/find_distinct_words/review.py
+/usr/bin/python3 /home/hcilab/Documents/OSS/playnview_distinctwordfinder/find_distinct_words/review.py
 
 # or raw lyrics (KO): 1000
 # or raw lyrics (JA): 1142
@@ -291,9 +290,9 @@ filtered_words_uniq/all_words_raw_uniq (%) (JA): 0.50529
 
 --- COVERAGE OF DISTINCT WORDS ---
 
-Size of distinct words: 555
-Coverage of distinct words in filtered lyrics K-pop: 0.61967
-Coverage of distinct words in filtered lyrics J-pop: 0.64892
+Size of distinct words: 545
+Coverage of distinct words in filtered lyrics K-pop: 0.57954
+Coverage of distinct words in filtered lyrics J-pop: 0.61315
 
 ------------------------------------
 

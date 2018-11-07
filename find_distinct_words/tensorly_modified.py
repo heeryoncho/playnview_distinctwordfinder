@@ -151,15 +151,16 @@ def parafac(tensor, rank, n_iter_max=100, tol=1e-8,
     for iteration in range(n_iter_max):
         for mode in range(tl.ndim(tensor)):
             pseudo_inverse = tl.tensor(np.ones((rank, rank)), **tl.context(tensor))
+
+            factors[2][0] = fixed_ja   # set mode-3 values
+            factors[2][1] = fixed_ko   # set mode-3 values
+
             for i, factor in enumerate(factors):
                 if i != mode:
                     pseudo_inverse = pseudo_inverse*tl.dot(tl.transpose(factor), factor)
             factor = tl.dot(unfold(tensor, mode), khatri_rao(factors, skip_matrix=mode))
             factor = tl.transpose(tl.solve(tl.transpose(pseudo_inverse), tl.transpose(factor)))
             factors[mode] = factor
-
-            factors[2][0] = fixed_ja   # set mode-3 values
-            factors[2][1] = fixed_ko   # set mode-3 values
 
         if tol:
             rec_error = tl.norm(tensor - kruskal_to_tensor(factors), 2) / norm_tensor

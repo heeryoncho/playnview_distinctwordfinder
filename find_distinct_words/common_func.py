@@ -54,17 +54,14 @@ loads CP decomposition (CPD) applied word lists. (J-pop, K-pop, Neutral)
 
 '''
 
-def load_word_list(weight):
-    df_ja = pd.read_csv("cpd_result/{}_ja.txt".format(weight),
-                        header=None, delimiter='\t')
+def load_word_list():
+    df_ja = pd.read_csv("cpd_result/ja.txt", header=None, delimiter='\t')
     word_list_ja = list(df_ja[0].values)
 
-    df_ko = pd.read_csv("cpd_result/{}_ko.txt".format(weight),
-                        header=None, delimiter='\t')
+    df_ko = pd.read_csv("cpd_result/ko.txt", header=None, delimiter='\t')
     word_list_ko = list(df_ko[0].values)
 
-    df_neu = pd.read_csv("cpd_result/{}_neu.txt".format(weight),
-                         header=None, delimiter='\t')
+    df_neu = pd.read_csv("cpd_result/neu.txt", header=None, delimiter='\t')
     word_list_neu = list(df_neu[0].values)
 
     return word_list_ja, word_list_ko, word_list_neu
@@ -140,7 +137,3 @@ def save_distinct_words(distinct_wordlist, label):
 
     ko_vv = sorted_ko[sorted_ko[0].str.contains(":VV")]
     ko_vv.to_csv("result/distinct_{}_VV.csv".format(label), header=None, index=None)
-
-
-
-

@@ -110,39 +110,37 @@ def CPD_wordlist():
     X = np.stack((kv_ja.vectors, kv_ko.vectors), axis=2)
     print("stacked X shape:", X.shape)
 
-    for w in np.arange(.1, 1, .1):  # .1--.9 with .1 increment.
-        w_jako = w
-        w_neu = 1 - w
-        fixed_ja = [w_jako, w_neu, 0.0]   # e.g., [0.1, 0.9, 0.0]
-        fixed_ko = [0.0, w_neu, w_jako]   # e.g., [0.0, 0.9, 0.1]
+    w_jako = 0.5
+    w_neu = 1.0 - w_jako
+    fixed_ja = [w_jako, w_neu, 0.0]  # e.g., [0.1, 0.9, 0.0]
+    fixed_ko = [0.0, w_neu, w_jako]  # e.g., [0.0, 0.9, 0.1]
 
-        country_values = [fixed_ja, fixed_ko]
-        decomposed = tensorly_modified.parafac(X, 3, random_state=2018, mode_three_val=country_values)
+    country_values = [fixed_ja, fixed_ko]
+    decomposed = tensorly_modified.parafac(X, 3, random_state=2018, mode_three_val=country_values)
 
-        # Select mode-1 vectors containing values for the index words and transpose it.
+    # Select mode-1 vectors containing values for the index words and transpose it.
 
-        result = decomposed[0].T
+    result = decomposed[0].T
 
-        index_w = kv_ja.index2word
+    index_w = kv_ja.index2word
 
-        weight = '-'.join("{:.1f}".format(i) for i in fixed_ja)
+    country = ["ja", "neu", "ko"]
 
-        country = ["ja", "neu", "ko"]
+    for i in range(3):  # i denotes either 'ja', 'neu', 'ko'.
+        val = {}
+        for j in range(len(index_w)):
+            val[index_w[j]] = result[i][j]
+        sorted_list = [(k, val[k]) for k in sorted(val, key=val.get, reverse=True)]
+        result_str = ""
+        word_list = []
+        for k, v in sorted_list:
+            result_str += "{}\t{}\n".format(k, v)
+            word_list.append(k)
+        # print(result_str)
+        result_file = "{}/{}.txt".format(cpd_dir, country[i])
+        with open(result_file, 'w') as f:
+            f.write(result_str)
 
-        for i in range(3):  # i denotes either 'ja', 'neu', 'ko'.
-            val = {}
-            for j in range(len(index_w)):
-                val[index_w[j]] = result[i][j]
-            sorted_list = [(k, val[k]) for k in sorted(val, key=val.get, reverse=True)]
-            result_str = ""
-            word_list = []
-            for k, v in sorted_list:
-                result_str += "{}\t{}\n".format(k, v)
-                word_list.append(k)
-            # print(result_str)
-            result_file = "{}/{}_{}.txt".format(cpd_dir, weight, country[i])
-            with open(result_file, 'w') as f:
-                f.write(result_str)
 
 
 # Execute the below functions in a sequential manner.
