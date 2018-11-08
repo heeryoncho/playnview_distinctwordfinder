@@ -174,7 +174,7 @@ def data_statistics():
     with open("result/distinct_words.p", 'rb') as f:
         distinct = pickle.load(f)
 
-    print("\nSize of distinct words:", len(distinct))
+    print("\nSize of distinct words (KO):", len(distinct))
 
     coverage_distinct_ko = []
     for lyric in lyrics_ko:
@@ -290,7 +290,7 @@ filtered_words_uniq/all_words_raw_uniq (%) (JA): 0.50529
 
 --- COVERAGE OF DISTINCT WORDS ---
 
-Size of distinct words: 545
+Size of distinct words (KO): 545
 Coverage of distinct words in filtered lyrics K-pop: 0.57954
 Coverage of distinct words in filtered lyrics J-pop: 0.61315
 

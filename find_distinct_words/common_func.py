@@ -1,3 +1,4 @@
+import os
 import pickle
 import numpy as np
 import pandas as pd
@@ -89,17 +90,23 @@ def get_avg(mean_list):
 
 '''
 
-|+++++++++++++++++++++++++++++++++++++++++++++++|
-| save_distinct_words(distinct_wordlist, label) |
-|+++++++++++++++++++++++++++++++++++++++++++++++|
+|++++++++++++++++++++++++++++++++++++++++++++++++++|
+| save_distinct_words_ko(distinct_wordlist, label) |
+|++++++++++++++++++++++++++++++++++++++++++++++++++|
 
-saves distinct K-pop/J-pop/Neutral CPD words to the 'result' folder.
+saves distinct K-pop/J-pop/Neutral CPD words (in Korean) to the 'result_ko' folder.
 
 '''
 
-def save_distinct_words(distinct_wordlist, label):
+def save_distinct_words_ko(distinct_wordlist, label):
+    # Create 'result' directory if there isn't any.
+
+    result_dir = "result_ko"
+    if not os.path.exists(result_dir):
+        os.makedirs(result_dir)
+
     print("\n----------------------------------------")
-    print("     DISTINCT {} WORDS     ".format(label.upper()))
+    print("     DISTINCT {} WORDS : KO    ".format(label.upper()))
     print("----------------------------------------")
 
     freq_ko = pd.read_csv("processed/uniq_word_ko.txt", header=None, delimiter='\t')
@@ -124,16 +131,71 @@ def save_distinct_words(distinct_wordlist, label):
     selected_ko = freq_ko[freq_ko[0].isin(split_ko)]
     sorted_ko = selected_ko.sort_values([1], ascending=[False])
 
-    sorted_ko.to_csv("result/distinct_{}.csv".format(label), header=None, index=None)
+    sorted_ko.to_csv("result_ko/distinct_{}.csv".format(label), header=None, index=None)
 
     ko_nng = sorted_ko[sorted_ko[0].str.contains(":NNG")]
-    ko_nng.to_csv("result/distinct_{}_NNG.csv".format(label), header=None, index=None)
+    ko_nng.to_csv("result_ko/distinct_{}_NNG.csv".format(label), header=None, index=None)
 
     ko_nnp = sorted_ko[sorted_ko[0].str.contains(":NNP")]
-    ko_nnp.to_csv("result/distinct_{}_NNP.csv".format(label), header=None, index=None)
+    ko_nnp.to_csv("result_ko/distinct_{}_NNP.csv".format(label), header=None, index=None)
 
     ko_va = sorted_ko[sorted_ko[0].str.contains(":VA")]
-    ko_va.to_csv("result/distinct_{}_VA.csv".format(label), header=None, index=None)
+    ko_va.to_csv("result_ko/distinct_{}_VA.csv".format(label), header=None, index=None)
 
     ko_vv = sorted_ko[sorted_ko[0].str.contains(":VV")]
-    ko_vv.to_csv("result/distinct_{}_VV.csv".format(label), header=None, index=None)
+    ko_vv.to_csv("result_ko/distinct_{}_VV.csv".format(label), header=None, index=None)
+
+
+'''
+
+|++++++++++++++++++++++++++++++++++++++++++++++++++|
+| save_distinct_words_ja(distinct_wordlist, label) |
+|++++++++++++++++++++++++++++++++++++++++++++++++++|
+
+saves distinct K-pop/J-pop/Neutral CPD words (in Japanese) to the 'result_ja' folder.
+
+'''
+
+def save_distinct_words_ja(distinct_wordlist, label):
+    # Create 'result' directory if there isn't any.
+
+    result_dir = "result_ja"
+    if not os.path.exists(result_dir):
+        os.makedirs(result_dir)
+
+    print("\n----------------------------------------")
+    print("     DISTINCT {} WORDS : JA    ".format(label.upper()))
+    print("----------------------------------------")
+
+    freq_ja = pd.read_csv("processed/uniq_word_ja.txt", header=None, delimiter='\t')
+
+    with open("dictionary/ja2ko_dict.p", 'rb') as f:
+        jako_dict = pickle.load(f)
+
+    matched_ja = []
+    for key_ja, val_ko in jako_dict.items():
+        if val_ko in distinct_wordlist:
+            matched_ja.append(key_ja)
+    print("matched_{}:".format(label), len(matched_ja))
+
+    split_ja = []
+    for w in matched_ja:
+        if '|' in w:
+            split_ja += w.split('|')
+        else:
+            split_ja.append(w)
+    print("split_{}:".format(label), len(split_ja))
+
+    selected_ja = freq_ja[freq_ja[0].isin(split_ja)]
+    sorted_ja = selected_ja.sort_values([1], ascending=[False])
+
+    sorted_ja.to_csv("result_ja/distinct_{}.csv".format(label), header=None, index=None)
+
+    ja_nng = sorted_ja[sorted_ja[0].str.contains(":名詞")]
+    ja_nng.to_csv("result_ja/distinct_{}_noun.csv".format(label), header=None, index=None)
+
+    ja_va = sorted_ja[sorted_ja[0].str.contains(":形容詞")]
+    ja_va.to_csv("result_ja/distinct_{}_adjective.csv".format(label), header=None, index=None)
+
+    ja_vv = sorted_ja[sorted_ja[0].str.contains(":動詞")]
+    ja_vv.to_csv("result_ja/distinct_{}_verb.csv".format(label), header=None, index=None)

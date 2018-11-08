@@ -1,6 +1,7 @@
 import os
 import pickle
 from find_distinct_words import common_func
+from find_distinct_words import show
 
 '''
 
@@ -103,9 +104,21 @@ def distinct_words(n_words, label_jpop, label_kpop):
     print("# of JA words (w/o common):", len(u_ja_sans))
     print("# of UNION words (KO+JA, w/o common):", len(u_words_sans))
 
-    common_func.save_distinct_words(list(u_common), "common")
-    common_func.save_distinct_words(list(u_ko_sans), "k_pop")
-    common_func.save_distinct_words(list(u_ja_sans), "j_pop")
+    # Save results in Korean.
+
+    common_func.save_distinct_words_ko(list(u_common), "common")
+    common_func.save_distinct_words_ko(list(u_ko_sans), "k_pop")
+    common_func.save_distinct_words_ko(list(u_ja_sans), "j_pop")
+
+    # Save results in Japanese.
+
+    common_func.save_distinct_words_ja(list(u_common), "common")
+    common_func.save_distinct_words_ja(list(u_ko_sans), "k_pop")
+    common_func.save_distinct_words_ja(list(u_ja_sans), "j_pop")
+
+    # Output top-10/top-20 results in web browser.
+    show.summary()
+
 
 
 # Find distinct words using the following arguments:
@@ -117,6 +130,7 @@ distinct_words(300, 'bottom', 'top')
 
 
 '''
+
 /usr/bin/python3 /home/hcilab/Documents/OSS/playnview_distinctwordfinder/find_distinct_words/find.py
 --------------------------------------------------------
 # of total words (union): 545
@@ -134,22 +148,40 @@ distinct_words(300, 'bottom', 'top')
 # of UNION words (KO+JA, w/o common): 490
 
 ----------------------------------------
-     DISTINCT COMMON WORDS     
+     DISTINCT COMMON WORDS : KO    
 ----------------------------------------
 matched_common: 55
 split_common: 65
 
 ----------------------------------------
-     DISTINCT K_POP WORDS     
+     DISTINCT K_POP WORDS : KO    
 ----------------------------------------
 matched_k_pop: 245
 split_k_pop: 277
 
 ----------------------------------------
-     DISTINCT J_POP WORDS     
+     DISTINCT J_POP WORDS : KO    
 ----------------------------------------
 matched_j_pop: 245
 split_j_pop: 289
+
+----------------------------------------
+     DISTINCT COMMON WORDS : JA    
+----------------------------------------
+matched_common: 55
+split_common: 70
+
+----------------------------------------
+     DISTINCT K_POP WORDS : JA    
+----------------------------------------
+matched_k_pop: 245
+split_k_pop: 320
+
+----------------------------------------
+     DISTINCT J_POP WORDS : JA    
+----------------------------------------
+matched_j_pop: 245
+split_j_pop: 334
 
 Process finished with exit code 0
 
