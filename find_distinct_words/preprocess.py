@@ -382,12 +382,12 @@ def filter_lyrics():
 #---------------------------------------
 # Tokenize j-pop lyrics data and extract nouns, verbs, and adjectives.
 
-tokenize_ja("../crawl_data/lyrics_jp/jp_lyrics_verbose.csv")
+#tokenize_ja("../crawl_data/lyrics_jp/jp_lyrics_verbose.csv")
 
 #---------------------------------------
 # Tokenize k-pop lyrics data and extract nouns (common nouns and proper nouns), verbs, and adjectives.
 
-tokenize_ko("../crawl_data/lyrics_kr/kr_lyrics_verbose.csv")
+#tokenize_ko("../crawl_data/lyrics_kr/kr_lyrics_verbose.csv")
 
 #---------------------------------------
 # Check the content of the manually created J-pop/K-pop lyrics word alignment dictionary,
@@ -395,14 +395,14 @@ tokenize_ko("../crawl_data/lyrics_kr/kr_lyrics_verbose.csv")
 # k-pop index words as key and j-pop dictionary as values.
 # Save the converted python dictionary (ko2ja_dict) using pickle.
 
-check_dictionary()
+#check_dictionary()
 
 #---------------------------------------
 # Filter k-pop & j-pop lyrics data using the alignment dictionary and
 # save the result to 'filtered_lyrics' directory.
 # The filtered data are used hereinafter.
 
-filter_lyrics()
+#filter_lyrics()
 
 
 '''

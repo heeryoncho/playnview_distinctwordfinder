@@ -325,8 +325,8 @@ def draw_line_graph():
 
     title("K-Means Clustering With Various N Words")
     grid(True)
-    # show()
     savefig("fig/clustering_performance.png")
+    show()
     plt.gcf().clear()
 
 # Execute the below functions in a sequential manner.
@@ -334,15 +334,15 @@ def draw_line_graph():
 #---------------------------------------
 # Calculate the baseline performance of tfidf using all filtered words (i.e., 1,007 index words).
 
-baseline()
+#baseline()
 
 #---------------------------------------
 # Calculate the top_n X top_n, top_n X bottom_n, bottom_n X top_n, bottom_n X bottom_n,
 # J-pop X K-pop CPD lyrics word clustering performance using K-means clustering.
 
-top_x_bottom()
+#top_x_bottom()
 
 #---------------------------------------
 # Draw a line graph of the experimental results.
 
-draw_line_graph()
+#draw_line_graph()

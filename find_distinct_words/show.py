@@ -58,6 +58,6 @@ def summary():
         file.write(html)
 
     path = 'file:///home/hcilab/Documents/OSS/playnview_distinctwordfinder/find_distinct_words/result/result.html'
-    webbrowser.open(path)
+    webbrowser.get(using='google-chrome').open(path)
 
-summary()
+#summary()

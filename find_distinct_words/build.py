@@ -96,7 +96,7 @@ the sorted index words are saved to the 'cpd_result' directory.
 
 '''
 
-def CPD_wordlist():
+def CPD_wordlist(verbose=True):
     # Create 'cpd_result' directory if there isn't any.
 
     cpd_dir = "cpd_result"
@@ -116,7 +116,7 @@ def CPD_wordlist():
     fixed_ko = [0.0, w_neu, w_jako]  # e.g., [0.0, 0.9, 0.1]
 
     country_values = [fixed_ja, fixed_ko]
-    decomposed = tensorly_modified.parafac(X, 3, random_state=2018, mode_three_val=country_values)
+    decomposed = tensorly_modified.parafac(X, 3, random_state=2018, mode_three_val=country_values, verbose=verbose)
 
     # Select mode-1 vectors containing values for the index words and transpose it.
 
@@ -148,9 +148,9 @@ def CPD_wordlist():
 #---------------------------------------
 # Build j-pop and k-pop word2vec vectors.
 
-word2vec()
+#word2vec()
 
 #---------------------------------------
 # Build CPD word list using fixed mode-3 value CP decomposition.
 
-CPD_wordlist()
+#CPD_wordlist(verbose=True)

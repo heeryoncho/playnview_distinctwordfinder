@@ -30,6 +30,14 @@ You need to manually save the yearly top 100 ranking webpages (10 years worth) f
 
 See instruction.txt located under the 'crawl_data > melon' directory.
 
+## Reproducibility
+To obtain consistent results, you need to set the PYTHONHASHSEED environment variable. You can do this through the command line interface as shown below,
+```
+$ PYTHONHASHSEED=0 python3 main_distinct_word_finder.py
+```
+or through PyCharm if you are using PyCharm. Go to the top menu 'Run', then 'Edit Configurations', then add the 'PYTHONHASHSEED' to the 'Environment variables'.
+
+
 ## YouTube
 There is a YouTube demo of PlaynView-DistinctWordFinder in action at:
 [https://youtu.be/cFlsN6oM55c](https://youtu.be/cFlsN6oM55c)

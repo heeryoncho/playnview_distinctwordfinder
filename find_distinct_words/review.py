@@ -224,7 +224,7 @@ def data_statistics():
 
 # Presents overview statistics of the lyrics data.
 
-data_statistics()
+#data_statistics()
 
 
 '''

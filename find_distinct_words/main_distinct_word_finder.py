@@ -3,7 +3,7 @@ from find_distinct_words import build
 from find_distinct_words import experiment
 from find_distinct_words import find
 from find_distinct_words import review
-
+import time
 
 '''
 
@@ -76,10 +76,17 @@ experiment.baseline()
 
 experiment.top_x_bottom()
 
-# Draw a line graph of the experimental results.
+print("\n============================================")
+print("|   You will see a graph pop up.           |")
+print("|   Please determine the word size and     |")
+print("|   up/bottom of 'ja' and 'ko' words.      |")
+print("============================================\n\n\n")
+
+time.sleep(5)
+
+# Draw a line graph of the experimental results and show it to the user.
 
 experiment.draw_line_graph()
-
 
 #-----------------------------------------------
 # STEP 4. FIND
@@ -89,9 +96,16 @@ experiment.draw_line_graph()
 # the size of n (integer) and
 # the lyrics word sorting method (string: either 'top' or 'bottom') for each of the J-pop & K-pop.
 
+# Ask the user, the number of words, up/bottom decision of 'ja' and 'ko' words.
+
+n_words = input("Number of words?: ")
+j_pop = input("J-pop (ja): top or bottom? Type 't' or 'b': ")
+k_pop = input("K-pop (ko): top or bottom? Type 't' or 'b': ")
+
 # The list of distinct words are saved under the 'result' directory.
 
-find.distinct_words(300, 'bottom', 'top')
+find.distinct_words(int(n_words), j_pop, k_pop)
+#find.distinct_words(300, 'b', 't')
 
 
 #=====================================================================================================

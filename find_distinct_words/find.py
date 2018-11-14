@@ -63,10 +63,10 @@ def distinct_words(n_words, label_jpop, label_kpop):
     rev_ko = list(reversed(ko))
     rev_ja = list(reversed(ja))
 
-    if sort_label_ko is 'bottom':
+    if sort_label_ko is 'b':
         ko = rev_ko
 
-    if sort_label_ja is 'bottom':
+    if sort_label_ja is 'b':
         ja = rev_ja
 
     print("--------------------------------------------------------")
@@ -126,7 +126,7 @@ def distinct_words(n_words, label_jpop, label_kpop):
 #                the 'fig/clustering_performance.png'
 # sorting method /'top' or 'bottom'/: also determined using the figure.
 
-distinct_words(300, 'bottom', 'top')
+#distinct_words(300, 'bottom', 'top')
 
 
 '''
