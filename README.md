@@ -11,6 +11,7 @@ Please follow the instructions below to run the code:
 This code has been tested under:
 * Ubuntu 16.04
 * Python 3.5
+* (You also need to have Google Chrome installed.)
 
 ## List of Required Python Libraries
 The following python libraries are required to run this code:
