@@ -150,7 +150,7 @@ def top_x_bottom():
         rev_ja = list(reversed(ja))
         rev_ko = list(reversed(ko))
 
-        for top_n in range(50, 400, 50):
+        for top_n in range(50, 1050, 50):
             # *** Top-N vs. Top-N *** -------------------------------------------------------
             if case is "tt":
                 print("\n****** TOP-N: {} X 2 (J-pop/K-pop) ******\n".format(top_n))
@@ -290,7 +290,7 @@ def draw_line_graph():
     in_file_tfidf = "table/tfidf.txt"
     with open(in_file_tfidf,"r") as f:
         tfidf = f.read()
-    data_tfidf = np.full((7,), np.round(float(tfidf), 5))
+    data_tfidf = np.full((20,), np.round(float(tfidf), 5))
 
     in_file_tt = "table/ari_tt.csv"
     df_tt = pd.read_csv(in_file_tt, header=None)
@@ -308,7 +308,7 @@ def draw_line_graph():
     df_bt = pd.read_csv(in_file_bt, header=None)
     data_bt = np.round(df_bt.iloc[[0]].values[0], 5)
 
-    t = arange(50, 400, 50)
+    t = arange(50, 1050, 50)
 
     plot(t, data_tt, linestyle="-", label="jako_both_TOP", marker="o")
     plot(t, data_bb, linestyle="--", label="jako_both_BOTTOM", marker="+")

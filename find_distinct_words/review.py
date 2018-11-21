@@ -171,7 +171,7 @@ def data_statistics():
 
     # Coverage of the distinct words.
 
-    with open("result/distinct_words.p", 'rb') as f:
+    with open("result/distinct_words_full.p", 'rb') as f:
         distinct = pickle.load(f)
 
     print("\nSize of distinct words (KO):", len(distinct))

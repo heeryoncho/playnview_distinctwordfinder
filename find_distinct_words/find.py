@@ -1,7 +1,11 @@
 import os
 import pickle
+import pandas as pd
+from tabulate import tabulate
 from find_distinct_words import common_func
-from find_distinct_words import show
+from find_distinct_words import sort_freq
+import webbrowser
+
 
 '''
 
@@ -42,11 +46,6 @@ def distinct_words(n_words, label_jpop, label_kpop):
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)
 
-    # Container for the final distinct K-pop & J-pop words.
-
-    final_ko = []
-    final_ja = []
-
     # Set the N words information based on the clustering results.
 
     n_words = n_words
@@ -73,6 +72,10 @@ def distinct_words(n_words, label_jpop, label_kpop):
     words = set.union(set(ko[:n_words]), set(ja[:n_words]))
     print("# of total words (union):", len(words))
 
+    # Load ja2ko_dictionary.
+    jako_dict = pickle.load(open("dictionary/ja2ko_dict.p", 'rb'))
+    koja_dict = {y: x for x, y in jako_dict.items()}
+
     # ----------------------------------------------------------------
     # Final K-pop/J-pop CPD word list is obtained by taking the
     # intersection of the nine cases of mode-3 value results.
@@ -87,14 +90,14 @@ def distinct_words(n_words, label_jpop, label_kpop):
     u_common = set.intersection(u_ko, u_ja)
     u_words = set.union(u_ko, u_ja)
 
-    # Save final distinct words in pickle format for later use (See 'review()' function).
-    with open("result/distinct_words.p", 'wb') as f:
-        pickle.dump(list(u_words), f)
-
     print("# of KO words:", len(u_ko))
     print("# of JA words:", len(u_ja))
     print("# of COMMON words", len(u_common))
     print("# of UNION words (KO+JA):", len(u_words))
+
+    # Save final distinct words (full) in pickle format for later use (See 'review()' function).
+    with open("result/distinct_words_full.p", 'wb') as f:
+        pickle.dump(list(u_words), f)
 
     u_ko_sans = u_ko - u_common
     u_ja_sans = u_ja - u_common
@@ -104,11 +107,92 @@ def distinct_words(n_words, label_jpop, label_kpop):
     print("# of JA words (w/o common):", len(u_ja_sans))
     print("# of UNION words (KO+JA, w/o common):", len(u_words_sans))
 
+    # Save final distinct words (minimum) in pickle format for later use (See 'review()' function).
+    with open("result/distinct_words_minimum.p", 'wb') as f:
+        pickle.dump(list(u_words_sans), f)
+
+    sorted_u_ko_sans_k = []
+    sorted_u_ko_sans_j = []
+
+    sorted_u_ko_sans_k_n = []
+    sorted_u_ko_sans_k_a = []
+    sorted_u_ko_sans_k_v = []
+
+    sorted_u_ko_sans_j_n = []
+    sorted_u_ko_sans_j_a = []
+    sorted_u_ko_sans_j_v = []
+
+    for each_ko in ko[:n_words]:
+        if each_ko in u_ko_sans:
+            sorted_u_ko_sans_k.append(each_ko)
+            if 'NNG' in each_ko or 'NNP' in each_ko:
+                sorted_u_ko_sans_k_n.append(each_ko.replace(':NNG','').replace(':NNP','').replace(':VA','다').replace(':VV','다'))
+            if 'VA' in each_ko:
+                sorted_u_ko_sans_k_a.append(each_ko.replace(':NNG','').replace(':NNP','').replace(':VA','다').replace(':VV','다'))
+            if 'VV' in each_ko:
+                sorted_u_ko_sans_k_v.append(each_ko.replace(':NNG','').replace(':NNP','').replace(':VA','다').replace(':VV','다'))
+            sorted_u_ko_sans_j.append(koja_dict[each_ko])
+            if '名詞' in koja_dict[each_ko]:
+                sorted_u_ko_sans_j_n.append(koja_dict[each_ko].replace(':名詞','').replace(':形容詞','').replace(':動詞',''))
+            if '形容詞' in koja_dict[each_ko]:
+                sorted_u_ko_sans_j_a.append(koja_dict[each_ko].replace(':名詞','').replace(':形容詞','').replace(':動詞',''))
+            if '動詞' in koja_dict[each_ko]:
+                sorted_u_ko_sans_j_v.append(koja_dict[each_ko].replace(':名詞','').replace(':形容詞','').replace(':動詞',''))
+
+    with open('result/distinct_words_minimum_k_pop_ko.txt', 'w') as f:
+        for each_ko in sorted_u_ko_sans_k:
+            f.write("%s\n" % each_ko)
+
+    with open('result/distinct_words_minimum_k_pop_ja.txt', 'w') as f:
+        for each_ko in sorted_u_ko_sans_j:
+            f.write("%s\n" % each_ko)
+
+    sorted_u_ja_sans_k = []
+    sorted_u_ja_sans_j = []
+
+    sorted_u_ja_sans_k_n = []
+    sorted_u_ja_sans_k_a = []
+    sorted_u_ja_sans_k_v = []
+
+    sorted_u_ja_sans_j_n = []
+    sorted_u_ja_sans_j_a = []
+    sorted_u_ja_sans_j_v = []
+
+    for each_ja in ja[:n_words]:
+        if each_ja in u_ja_sans:
+            sorted_u_ja_sans_k.append(each_ja)
+            sorted_u_ja_sans_k.append(each_ja)
+            if 'NNG' in each_ja or 'NNP' in each_ja:
+                sorted_u_ja_sans_k_n.append(each_ja.replace(':NNG','').replace(':NNP','').replace(':VA','다').replace(':VV','다'))
+            if 'VA' in each_ja:
+                sorted_u_ja_sans_k_a.append(each_ja.replace(':NNG','').replace(':NNP','').replace(':VA','다').replace(':VV','다'))
+            if 'VV' in each_ja:
+                sorted_u_ja_sans_k_v.append(each_ja.replace(':NNG','').replace(':NNP','').replace(':VA','다').replace(':VV','다'))
+            sorted_u_ja_sans_j.append(koja_dict[each_ja])
+            if '名詞' in koja_dict[each_ja]:
+                sorted_u_ja_sans_j_n.append(koja_dict[each_ja].replace(':名詞','').replace(':形容詞','').replace(':動詞',''))
+            if '形容詞' in koja_dict[each_ja]:
+                sorted_u_ja_sans_j_a.append(koja_dict[each_ja].replace(':名詞','').replace(':形容詞','').replace(':動詞',''))
+            if '動詞' in koja_dict[each_ja]:
+                sorted_u_ja_sans_j_v.append(koja_dict[each_ja].replace(':名詞','').replace(':形容詞','').replace(':動詞',''))
+
+    with open('result/distinct_words_minimum_j_pop_ko.txt', 'w') as f:
+        for each_ja in sorted_u_ja_sans_k:
+            f.write("%s\n" % each_ja)
+
+    with open('result/distinct_words_minimum_j_pop_ja.txt', 'w') as f:
+        for each_ja in sorted_u_ja_sans_j:
+            f.write("%s\n" % each_ja)
+
+
     # Save results in Korean.
 
     common_func.save_distinct_words_ko(list(u_common), "common")
     common_func.save_distinct_words_ko(list(u_ko_sans), "k_pop")
     common_func.save_distinct_words_ko(list(u_ja_sans), "j_pop")
+
+    # Output top-10/top-20 results in web browser.
+    sort_freq.summary_ko()
 
     # Save results in Japanese.
 
@@ -117,7 +201,46 @@ def distinct_words(n_words, label_jpop, label_kpop):
     common_func.save_distinct_words_ja(list(u_ja_sans), "j_pop")
 
     # Output top-10/top-20 results in web browser.
-    show.summary()
+    sort_freq.summary_ja()
+
+
+    # Based on CPD word list.
+
+    df_korean = pd.DataFrame.from_dict({'K-POP-Noun':sorted_u_ko_sans_k_n,
+                              'J-POP-Noun':sorted_u_ja_sans_k_n,
+                              'K-POP-Adj':sorted_u_ko_sans_k_a,
+                              'J-POP-Adj':sorted_u_ja_sans_k_a,
+                              'K-POP-Verb':sorted_u_ko_sans_k_v,
+                              'J-POP-Verb':sorted_u_ja_sans_k_v}, orient='index').T
+    df_japanese = pd.DataFrame.from_dict({'K-POP-Noun':sorted_u_ko_sans_j_n,
+                                'J-POP-Noun':sorted_u_ja_sans_j_n,
+                                'K-POP-Adj':sorted_u_ko_sans_j_a,
+                                'J-POP-Adj':sorted_u_ja_sans_j_a,
+                                'K-POP-Verb':sorted_u_ko_sans_j_v,
+                                'J-POP-Verb':sorted_u_ja_sans_j_v}, orient='index').T
+    #print(df_korean.shape)
+    #print(df_japanese.shape)
+
+    df_korean = df_korean[['K-POP-Noun', 'J-POP-Noun', 'K-POP-Adj', 'J-POP-Adj', 'K-POP-Verb', 'J-POP-Verb']]
+    df_japanese = df_japanese[['K-POP-Noun', 'J-POP-Noun', 'K-POP-Adj', 'J-POP-Adj', 'K-POP-Verb', 'J-POP-Verb']]
+
+    df_korean = df_korean.where((pd.notnull(df_korean)), None)
+    html_korean = tabulate(df_korean, headers='keys', tablefmt='html', showindex=False)
+
+    with open('result/result_korean.html', 'w') as file:
+        file.write(html_korean)
+
+    path = 'file:///home/hcilab/Documents/OSS/playnview_distinctwordfinder/find_distinct_words/result/result_korean.html'
+    webbrowser.get(using='google-chrome').open(path)
+
+    df_japanese = df_japanese.where((pd.notnull(df_japanese)), None)
+    html_japanese = tabulate(df_japanese, headers='keys', tablefmt='html', showindex=False)
+
+    with open('result/result_japanese.html', 'w') as file:
+        file.write(html_japanese)
+
+    path = 'file:///home/hcilab/Documents/OSS/playnview_distinctwordfinder/find_distinct_words/result/result_japanese.html'
+    webbrowser.get(using='google-chrome').open(path)
 
 
 
@@ -126,7 +249,7 @@ def distinct_words(n_words, label_jpop, label_kpop):
 #                the 'fig/clustering_performance.png'
 # sorting method /'top' or 'bottom'/: also determined using the figure.
 
-#distinct_words(300, 'bottom', 'top')
+distinct_words(500, 'b', 't')
 
 
 '''

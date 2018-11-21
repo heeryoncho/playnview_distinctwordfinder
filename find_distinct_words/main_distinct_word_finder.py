@@ -54,13 +54,9 @@ preprocess.filter_lyrics()
 # STEP 2. BUILD
 #-----------------------------------------------
 
-# Build j-pop and k-pop word2vec vectors.
+# Build j-pop/k-pop word2vec vectors and CPD word list (fixed mode-3 value CP decomposition).
 
-build.word2vec()
-
-# Build CPD word list using fixed mode-3 value CP decomposition.
-
-build.CPD_wordlist()
+build.W2V_n_CPD_wordlist()
 
 
 #-----------------------------------------------
@@ -79,10 +75,12 @@ experiment.top_x_bottom()
 print("\n============================================")
 print("|   You will see a graph pop up.           |")
 print("|   Please determine the word size and     |")
-print("|   up/bottom of 'ja' and 'ko' words.      |")
-print("============================================\n\n\n")
+print("|   top/bottom ordering of 'ja' and 'ko'   |")
+print("|   words. You need to close the graph     |")
+print("|   window to continue.                    |")
+print("============================================\n")
 
-time.sleep(5)
+time.sleep(1)
 
 # Draw a line graph of the experimental results and show it to the user.
 
@@ -102,10 +100,11 @@ n_words = input("Number of words?: ")
 j_pop = input("J-pop (ja): top or bottom? Type 't' or 'b': ")
 k_pop = input("K-pop (ko): top or bottom? Type 't' or 'b': ")
 
+
 # The list of distinct words are saved under the 'result' directory.
 
 find.distinct_words(int(n_words), j_pop, k_pop)
-#find.distinct_words(300, 'b', 't')
+#find.distinct_words(500, 'b', 't')
 
 
 #=====================================================================================================
