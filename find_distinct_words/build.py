@@ -18,6 +18,23 @@ This code generates ja & ko word2vec models using the filtered k-pop/j-pop files
 --- 'filtered_lyrics/lyrics_ja.p' file
 --- 'filtered_lyrics/lyrics_ko.p' file
 
+This code outputs 10 different J-pop/K-pop word2vec models:
+
+--- 'word2vec/w2v_ja_{}.kv' ({}: 0-9)
+--- 'word2vec/w2v_ko_{}.kv' ({}: 0-9)
+
+This code outputs 10 different ja, ko, neu's sorted CPD word lists:
+
+--- 'cpd_result/ja_{}.txt' ({}: 0-9)
+--- 'cpd_result/ko_{}.txt' ({}: 0-9)
+--- 'cpd_result/neu_{}.txt' ({}: 0-9)
+
+This code also outputs the merged(summed) CPD word lists:
+
+--- 'cpd_result/ja.txt'
+--- 'cpd_result/ko.txt'
+--- 'cpd_result/neu.txt'
+
 '''
 
 # Define new hash function for reproducibility.
@@ -118,6 +135,12 @@ def CPD_wordlist(verbose=True, seed=2018):
     fixed_ko = [0.0, w_neu, w_jako]  # [0.0, 0.5, 0.5]
 
     country_values = [fixed_ja, fixed_ko]
+
+    # It is important to fix the random_state in order to obtain consistent results.
+    # Here, consistent results mean consistent direction of mode-1 word ordering.
+
+    # To ensure convergence, n_iter_max is set at 300.
+
     decomposed = tensorly_modified.parafac(X, 3, random_state=2018, n_iter_max=300,
                                            mode_three_val=country_values, verbose=verbose)
 
@@ -151,17 +174,18 @@ def CPD_wordlist(verbose=True, seed=2018):
 
 
 
-# Execute the below functions in a sequential manner.
+'''
 
-#---------------------------------------
-# Build j-pop and k-pop word2vec vectors.
+|++++++++++++++++++++++|
+| W2V_n_CPD_wordlist() |
+|++++++++++++++++++++++|
 
-#word2vec(seed=2018)
+repeatedly (1) build word2vectors using 'word2vec()' function and 
+repeatedly (2) build CPD word list using 'CPD_wordlist()' function which
+utilizes fixed mode-3 value CP decomposition.
 
-#---------------------------------------
-# Build CPD word list using fixed mode-3 value CP decomposition.
+'''
 
-#CPD_wordlist(verbose=True, seed=2018)
 
 
 def W2V_n_CPD_wordlist():
@@ -221,7 +245,11 @@ def W2V_n_CPD_wordlist():
     with open(result_file_neu, 'w') as f:
         f.write(result_str_neu)
 
-#CPD_wordlist_repeated()
+#---------------------------------------
+# Builds j-pop and k-pop word2vec vectors and
+# # CPD word list using fixed mode-3 value CP decomposition.
+
+#W2V_n_CPD_wordlist()
 
 
 

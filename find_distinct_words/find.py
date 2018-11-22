@@ -13,7 +13,7 @@ import webbrowser
 # License: BSD-3-clause
 
 This code sorts the distinct word lists according to the K-pop lyrics word frequency,
-and saves the sorted distinct word lists into the 'result' folder.
+and saves the sorted distinct word lists into the 'result/result_ja/result_ko' folder.
 
 The following arguments should be specified:
 
@@ -249,7 +249,7 @@ def distinct_words(n_words, label_jpop, label_kpop):
 #                the 'fig/clustering_performance.png'
 # sorting method /'top' or 'bottom'/: also determined using the figure.
 
-distinct_words(500, 'b', 't')
+#distinct_words(500, 'b', 't')
 
 
 '''

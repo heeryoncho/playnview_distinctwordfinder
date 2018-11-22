@@ -55,6 +55,8 @@ preprocess.filter_lyrics()
 #-----------------------------------------------
 
 # Build j-pop/k-pop word2vec vectors and CPD word list (fixed mode-3 value CP decomposition).
+# Note that 10 different seeds are used to generate 10 different
+# word2vector j-pop/k-pop pairs and CP decomposition word lists.
 
 build.W2V_n_CPD_wordlist()
 

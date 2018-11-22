@@ -9,22 +9,17 @@ import webbrowser
 # Author: Heeryon Cho <heeryon.cho@gmail.com>
 # License: BSD-3-clause
 
-'''
+This code compares and ouputs the distinct word result in html file 
+(chrome window pops up) using two languages, Japanese and Korean:
 
-
-
-
-
-
-
-'''
-This code summarizes and prints the distinct word result output:
+Note that the words are sorted according to the word frequency of the 
+given country's lyrics data (from large fequency to small). 
 
 - Comparison of top-20 K-pop, J-pop and Common nouns.
 
-- Comparison of top-10 K-pop, J-pop and Common adjectives.
+- Comparison of top-20 K-pop, J-pop and Common adjectives.
 
-- Comparison of top-10 K-pop, J-pop and Common verbs. 
+- Comparison of top-20 K-pop, J-pop and Common verbs. 
 
 '''
 
